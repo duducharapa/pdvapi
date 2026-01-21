@@ -17,6 +17,9 @@ public class Sale {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "sale")
     Set<ItemSale> itemSales = new HashSet<>();
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "sale")
+    Set<PaymentSale> paymentSales = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -31,6 +34,14 @@ public class Sale {
 
     public void setItemSales(Set<ItemSale> itemSales) {
         this.itemSales = itemSales;
+    }
+
+    public Set<PaymentSale> getPaymentSales() {
+        return paymentSales;
+    }
+
+    public void setPaymentSales(Set<PaymentSale> paymentSales) {
+        this.paymentSales = paymentSales;
     }
 
     @Override
