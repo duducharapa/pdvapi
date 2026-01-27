@@ -1,20 +1,24 @@
 package com.charapadev.pdv.products;
 
 import com.charapadev.pdv.base.exceptions.NotFoundException;
+import com.charapadev.pdv.prices.PriceItemService;
 import com.charapadev.pdv.products.dtos.CreateProduct;
 import com.charapadev.pdv.products.dtos.UpdateProduct;
 import com.charapadev.pdv.products.entities.Product;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final PriceItemService  priceItemService;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository,  PriceItemService priceItemService) {
         this.productRepository = productRepository;
+        this.priceItemService = priceItemService;
     }
 
     private boolean existsById(Long id) {
@@ -33,7 +37,12 @@ public class ProductService {
         Product newProduct = new Product();
         newProduct.setName(data.name());
 
-        return productRepository.save(newProduct);
+        newProduct = productRepository.save(newProduct);
+
+        BigDecimal defaultPrice = data.price() == null ? BigDecimal.ZERO : data.price();
+        priceItemService.create(newProduct, defaultPrice);
+
+        return newProduct;
     }
 
     public Product findById(Long id) throws NotFoundException {

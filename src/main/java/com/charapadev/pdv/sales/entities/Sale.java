@@ -2,6 +2,7 @@ package com.charapadev.pdv.sales.entities;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -14,11 +15,14 @@ public class Sale {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "sale")
-    Set<ItemSale> itemSales = new HashSet<>();
+    @Column(nullable = false)
+    private BigDecimal totalValue =  BigDecimal.ZERO;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "sale")
-    Set<PaymentSale> paymentSales = new HashSet<>();
+    private Set<ItemSale> itemSales = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "sale")
+    private Set<PaymentSale> paymentSales = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -42,6 +46,18 @@ public class Sale {
 
     public void setPaymentSales(Set<PaymentSale> paymentSales) {
         this.paymentSales = paymentSales;
+    }
+
+    public BigDecimal getTotalValue() {
+        return totalValue;
+    }
+
+    public void setTotalValue(BigDecimal totalValue) {
+        this.totalValue = totalValue;
+    }
+
+    public void increaseAmount(BigDecimal amount) {
+        totalValue = totalValue.add(amount);
     }
 
     @Override

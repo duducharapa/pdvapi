@@ -1,0 +1,40 @@
+package com.charapadev.pdv.prices;
+
+import com.charapadev.pdv.prices.entities.PriceItem;
+import com.charapadev.pdv.prices.entities.PriceTable;
+import com.charapadev.pdv.products.entities.Product;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+
+@Service
+public class PriceItemService {
+
+    private final PriceItemRepository priceItemRepository;
+    private final PriceTableService priceTableService;
+
+    public PriceItemService(PriceItemRepository priceItemRepository, PriceTableService priceTableService) {
+        this.priceItemRepository = priceItemRepository;
+        this.priceTableService = priceTableService;
+    }
+
+    public void create(PriceTable table, Product product, BigDecimal price) {
+        PriceItem newPrice = new PriceItem();
+        newPrice.setProduct(product);
+        newPrice.setPrice(price);
+        newPrice.setPriceTable(table);
+
+        priceItemRepository.save(newPrice);
+    }
+
+    public void create(Product product, BigDecimal price) {
+        PriceTable defaultTable = priceTableService.getDefaultTable();
+
+        create(defaultTable, product, price);
+    }
+
+    public PriceItem findByProductAndTable(Long productId, Long tableId) {
+        return priceItemRepository.findByTableAndProduct(productId, tableId);
+    }
+
+}

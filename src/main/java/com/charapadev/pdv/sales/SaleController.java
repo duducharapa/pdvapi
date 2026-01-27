@@ -1,5 +1,6 @@
 package com.charapadev.pdv.sales;
 
+import com.charapadev.pdv.prices.PriceTableService;
 import com.charapadev.pdv.sales.dtos.AddSale;
 import com.charapadev.pdv.sales.entities.Sale;
 import org.springframework.http.HttpStatus;
