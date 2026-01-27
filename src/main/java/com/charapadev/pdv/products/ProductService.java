@@ -2,6 +2,7 @@ package com.charapadev.pdv.products;
 
 import com.charapadev.pdv.base.exceptions.NotFoundException;
 import com.charapadev.pdv.prices.PriceItemService;
+import com.charapadev.pdv.prices.entities.PriceItem;
 import com.charapadev.pdv.products.dtos.CreateProduct;
 import com.charapadev.pdv.products.dtos.UpdateProduct;
 import com.charapadev.pdv.products.entities.Product;
@@ -54,6 +55,13 @@ public class ProductService {
 
         if (data.name() != null) {
             product.setName(data.name());
+        }
+
+        if (data.price() != null) {
+            PriceItem price = priceItemService.findByProductAndTable(productId);
+            price.setPrice(data.price());
+
+            priceItemService.save(price);
         }
 
         productRepository.save(product);

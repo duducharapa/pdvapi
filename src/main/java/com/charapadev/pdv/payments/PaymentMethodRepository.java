@@ -13,4 +13,6 @@ public interface PaymentMethodRepository extends JpaRepository<PaymentMethod, Lo
     @Query("UPDATE PaymentMethod p SET p.active = false WHERE p.id = :id")
     void markAsInactive(Long id);
 
+    PaymentMethod findByName(String name);
+
 }

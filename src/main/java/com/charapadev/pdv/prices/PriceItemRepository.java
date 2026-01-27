@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PriceItemRepository extends JpaRepository<PriceItem, Long> {
 
-    @Query("SELECT pi FROM PriceItem pi LEFT JOIN FETCH pi.product p LEFT JOIN FETCH pi.priceTable pt WHERE p.id = :productId AND pt.id = :tableId OR pt.name = 'Padrão'")
-    PriceItem findByTableAndProduct(Long productId, Long tableId);
+    @Query("SELECT pi FROM PriceItem pi LEFT JOIN FETCH pi.product p LEFT JOIN FETCH pi.priceTable pt WHERE p.id = :productId AND pt.id = :tableId OR pt.name = :defaultTableName")
+    PriceItem findByTableAndProduct(Long productId, Long tableId, String defaultTableName);
 
 }

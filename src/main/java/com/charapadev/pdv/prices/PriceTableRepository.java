@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PriceTableRepository extends JpaRepository<PriceTable, Long> {
 
-    @Query("SELECT p FROM PriceTable p WHERE name = 'Padrão'")
-    PriceTable findDefault();
+    @Query("SELECT p FROM PriceTable p WHERE name = :defaultTableName")
+    PriceTable findDefault(String defaultTableName);
 
 }

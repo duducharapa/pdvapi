@@ -1,5 +1,6 @@
 package com.charapadev.pdv.prices;
 
+import com.charapadev.pdv.configurations.PriceTableConfiguration;
 import com.charapadev.pdv.prices.entities.PriceItem;
 import com.charapadev.pdv.prices.entities.PriceTable;
 import com.charapadev.pdv.products.entities.Product;
@@ -12,10 +13,12 @@ public class PriceItemService {
 
     private final PriceItemRepository priceItemRepository;
     private final PriceTableService priceTableService;
+    private final PriceTableConfiguration priceTableConfiguration;
 
-    public PriceItemService(PriceItemRepository priceItemRepository, PriceTableService priceTableService) {
+    public PriceItemService(PriceItemRepository priceItemRepository, PriceTableService priceTableService, PriceTableConfiguration priceTableConfiguration) {
         this.priceItemRepository = priceItemRepository;
         this.priceTableService = priceTableService;
+        this.priceTableConfiguration = priceTableConfiguration;
     }
 
     public void create(PriceTable table, Product product, BigDecimal price) {
@@ -34,7 +37,16 @@ public class PriceItemService {
     }
 
     public PriceItem findByProductAndTable(Long productId, Long tableId) {
-        return priceItemRepository.findByTableAndProduct(productId, tableId);
+        return priceItemRepository.findByTableAndProduct(productId, tableId, priceTableConfiguration.getPriceTable());
+    }
+
+    public PriceItem findByProductAndTable(Long productId) {
+        Long defaultTableId = priceTableService.getDefaultTable().getId();
+        return findByProductAndTable(productId, defaultTableId);
+    }
+
+    public PriceItem save(PriceItem priceItem) {
+        return priceItemRepository.save(priceItem);
     }
 
 }

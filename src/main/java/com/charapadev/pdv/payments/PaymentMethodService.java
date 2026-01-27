@@ -41,6 +41,10 @@ public class PaymentMethodService {
         return getOrThrow(id);
     }
 
+    public PaymentMethod find(String name) {
+        return paymentMethodRepository.findByName(name);
+    }
+
     public void update(Long id, UpdatePaymentMethod data) {
         PaymentMethod method = getOrThrow(id);
 
