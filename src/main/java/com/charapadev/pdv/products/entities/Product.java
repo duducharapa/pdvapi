@@ -1,6 +1,7 @@
 package com.charapadev.pdv.products.entities;
 
 import com.charapadev.pdv.prices.entities.PriceItem;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -8,15 +9,18 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Schema(description = "Represents the goods to manage and sell")
 @Entity
 @Table(name = "products")
 public class Product implements Serializable {
 
+    @Schema(description = "Product identifier", example = "3")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Schema(description = "An unique name that also identifies the product on application", example = "Hot chicken")
+    @Column(nullable = false, unique = true)
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")

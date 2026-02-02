@@ -1,12 +1,9 @@
 package com.charapadev.pdv.sales;
 
-import com.charapadev.pdv.base.exceptions.NotFoundException;
 import com.charapadev.pdv.payments.PaymentMethodService;
 import com.charapadev.pdv.payments.entities.PaymentMethod;
 import com.charapadev.pdv.prices.PriceItemService;
-import com.charapadev.pdv.prices.PriceTableService;
 import com.charapadev.pdv.prices.entities.PriceItem;
-import com.charapadev.pdv.prices.entities.PriceTable;
 import com.charapadev.pdv.products.ProductService;
 import com.charapadev.pdv.products.entities.Product;
 import com.charapadev.pdv.sales.dtos.AddItemSale;
@@ -15,6 +12,7 @@ import com.charapadev.pdv.sales.dtos.AddSale;
 import com.charapadev.pdv.sales.entities.ItemSale;
 import com.charapadev.pdv.sales.entities.PaymentSale;
 import com.charapadev.pdv.sales.entities.Sale;
+import com.charapadev.pdv.sales.exceptions.SaleNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -84,12 +82,12 @@ public class SaleService {
     }
 
     public Sale findById(Long id) {
-        return saleRepository.findByIdWithItems(id).orElseThrow(NotFoundException::new);
+        return saleRepository.findByIdWithItems(id).orElseThrow(SaleNotFoundException::new);
     }
 
     public void delete(Long id) {
         boolean exists = existsById(id);
-        if (!exists) throw new NotFoundException();
+        if (!exists) throw new SaleNotFoundException();
 
         saleRepository.deleteById(id);
     }

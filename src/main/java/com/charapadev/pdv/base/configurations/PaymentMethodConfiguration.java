@@ -1,4 +1,4 @@
-package com.charapadev.pdv.configurations;
+package com.charapadev.pdv.base.configurations;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

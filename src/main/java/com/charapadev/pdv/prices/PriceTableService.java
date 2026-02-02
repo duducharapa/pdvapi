@@ -1,9 +1,10 @@
 package com.charapadev.pdv.prices;
 
 import com.charapadev.pdv.base.exceptions.NotFoundException;
-import com.charapadev.pdv.configurations.PriceTableConfiguration;
+import com.charapadev.pdv.base.configurations.PriceTableConfiguration;
 import com.charapadev.pdv.prices.dtos.CreatePriceTable;
 import com.charapadev.pdv.prices.entities.PriceTable;
+import com.charapadev.pdv.prices.exceptions.PriceTableNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public class PriceTableService {
     }
 
     public PriceTable find(Long id) throws NotFoundException {
-        return priceTableRepository.findById(id).orElseThrow(NotFoundException::new);
+        return priceTableRepository.findById(id).orElseThrow(PriceTableNotFoundException::new);
     }
 
 }

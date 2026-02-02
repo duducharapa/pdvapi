@@ -2,15 +2,18 @@ package com.charapadev.pdv.sales.entities;
 
 import com.charapadev.pdv.payments.entities.PaymentMethod;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
+@Schema(description = "Intermediary class that represents each payment used to finish a sale")
 @Entity
 @Table(name="sale_payments")
 public class PaymentSale {
 
+    @Schema(description = "Payment on sale identifier", example = "8")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,6 +25,7 @@ public class PaymentSale {
     @ManyToOne
     private PaymentMethod method;
 
+    @Schema(description = "Discriminated value paid on sale using the vinculated payment method", example = "30.25")
     @Column(nullable = false)
     private BigDecimal amount = BigDecimal.ZERO;
 

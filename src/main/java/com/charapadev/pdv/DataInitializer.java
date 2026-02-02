@@ -1,7 +1,7 @@
 package com.charapadev.pdv;
 
-import com.charapadev.pdv.configurations.PaymentMethodConfiguration;
-import com.charapadev.pdv.configurations.PriceTableConfiguration;
+import com.charapadev.pdv.base.configurations.PaymentMethodConfiguration;
+import com.charapadev.pdv.base.configurations.PriceTableConfiguration;
 import com.charapadev.pdv.payments.PaymentMethodService;
 import com.charapadev.pdv.payments.dtos.CreatePaymentMethod;
 import com.charapadev.pdv.prices.PriceTableService;

@@ -4,6 +4,7 @@ import com.charapadev.pdv.base.exceptions.NotFoundException;
 import com.charapadev.pdv.payments.dtos.CreatePaymentMethod;
 import com.charapadev.pdv.payments.dtos.UpdatePaymentMethod;
 import com.charapadev.pdv.payments.entities.PaymentMethod;
+import com.charapadev.pdv.payments.exceptions.PaymentNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -18,17 +19,16 @@ public class PaymentMethodService {
         this.paymentMethodRepository = paymentMethodRepository;
     }
 
-    private boolean existsById(Long id) {
+
+    public boolean existsById(Long id) {
         return paymentMethodRepository.existsById(id);
     }
 
-    private PaymentMethod getOrThrow(Long id) throws NotFoundException {
-        return paymentMethodRepository.findById(id).orElseThrow(NotFoundException::new);
-    }
 
     public List<PaymentMethod> findAll() {
         return paymentMethodRepository.findAll();
     }
+
 
     public PaymentMethod create(CreatePaymentMethod data) {
         PaymentMethod method = new PaymentMethod();
@@ -37,16 +37,20 @@ public class PaymentMethodService {
         return paymentMethodRepository.save(method);
     }
 
+
     public PaymentMethod findById(Long id) throws NotFoundException {
-        return getOrThrow(id);
+        return paymentMethodRepository.findById(id).orElse(null);
     }
+
 
     public PaymentMethod find(String name) {
         return paymentMethodRepository.findByName(name);
     }
 
+
     public void update(Long id, UpdatePaymentMethod data) {
-        PaymentMethod method = getOrThrow(id);
+        PaymentMethod method = findById(id);
+        if (method == null) throw new RuntimeException();
 
         if (data.name() != null) {
             method.setName(data.name());
@@ -55,11 +59,12 @@ public class PaymentMethodService {
         paymentMethodRepository.save(method);
     }
 
+
     @Transactional
     public void delete(Long id) throws NotFoundException {
         boolean exists = existsById(id);
 
-        if (!exists) throw new NotFoundException();
+        if (!exists) throw new PaymentNotFoundException();
 
         paymentMethodRepository.markAsInactive(id);
     }

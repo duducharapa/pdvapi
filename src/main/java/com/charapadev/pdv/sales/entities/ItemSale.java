@@ -2,15 +2,18 @@ package com.charapadev.pdv.sales.entities;
 
 import com.charapadev.pdv.products.entities.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.Objects;
 
+@Schema(description = "Intermediary class that represents each product sold in a sale instance")
 @Entity
 @Table(name = "sale_items")
 public class ItemSale implements Serializable {
 
+    @Schema(description = "Item in sale identifier", example = "21")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,6 +25,7 @@ public class ItemSale implements Serializable {
     @JsonIgnore
     private Sale sale;
 
+    @Schema(description = "The quantity of the vinculated product sold in the specific sale", example = "8")
     @Column(nullable = false)
     private Integer quantity;
 

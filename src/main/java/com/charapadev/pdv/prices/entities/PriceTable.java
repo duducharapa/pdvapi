@@ -1,29 +1,34 @@
 package com.charapadev.pdv.prices.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Schema(description = "Represents the groupment of product prices")
 @Entity
 @Table(name = "price-table")
 public class PriceTable {
 
+    @Schema(description = "Price table identifier", example = "20")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Schema(description = "An short text identifier for each table", example = "John's shop")
+    @Column(nullable = false, unique = true)
+    private String name;
+
+    @Schema(description = "A short text about the purpose of this table instance", example = "Default system table")
+    @Column
+    private String description;
+
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<PriceItem>  priceItems = new HashSet<>();
-
-    @Column(nullable = false)
-    private String name;
-
-    @Column
-    private String description;
 
     public Long getId() {
         return id;

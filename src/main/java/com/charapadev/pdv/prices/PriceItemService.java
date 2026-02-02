@@ -1,6 +1,6 @@
 package com.charapadev.pdv.prices;
 
-import com.charapadev.pdv.configurations.PriceTableConfiguration;
+import com.charapadev.pdv.base.configurations.PriceTableConfiguration;
 import com.charapadev.pdv.prices.entities.PriceItem;
 import com.charapadev.pdv.prices.entities.PriceTable;
 import com.charapadev.pdv.products.entities.Product;

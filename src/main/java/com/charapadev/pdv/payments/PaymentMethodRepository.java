@@ -1,13 +1,14 @@
 package com.charapadev.pdv.payments;
 
 import com.charapadev.pdv.payments.entities.PaymentMethod;
+import org.jspecify.annotations.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PaymentMethodRepository extends JpaRepository<PaymentMethod, Long> {
+public interface PaymentMethodRepository extends JpaRepository<@NonNull PaymentMethod, @NonNull Long> {
 
     @Modifying
     @Query("UPDATE PaymentMethod p SET p.active = false WHERE p.id = :id")

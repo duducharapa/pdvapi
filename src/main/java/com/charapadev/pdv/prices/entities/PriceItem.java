@@ -2,15 +2,18 @@ package com.charapadev.pdv.prices.entities;
 
 import com.charapadev.pdv.products.entities.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
+@Schema(description = "Intermediary class that represents each product price in a table")
 @Entity
 @Table(name = "price-table_items")
 public class PriceItem {
 
+    @Schema(description = "Price of product identifier", example = "4")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,6 +25,7 @@ public class PriceItem {
     @JsonIgnore
     private Product product;
 
+    @Schema(description = "The specific price of product in the referenced prices table", example = "45.67")
     @Column(nullable = false)
     private BigDecimal price;
 
