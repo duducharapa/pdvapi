@@ -2,6 +2,7 @@ package com.charapadev.pdv.sales;
 
 import com.charapadev.pdv.sales.dtos.AddSale;
 import com.charapadev.pdv.sales.entities.Sale;
+import com.charapadev.pdv.sales.exceptions.SaleNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -109,6 +110,10 @@ public class SaleController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
+        boolean exists = saleService.existsById(id);
+
+        if (!exists) throw new SaleNotFoundException();
+
         saleService.delete(id);
     }
 

@@ -41,7 +41,7 @@ public class SaleService {
         this.priceItemService = priceItemService;
     }
 
-    private boolean existsById(Long id) {
+    public boolean existsById(Long id) {
         return saleRepository.existsById(id);
     }
 
@@ -85,11 +85,9 @@ public class SaleService {
         return saleRepository.findByIdWithItems(id).orElseThrow(SaleNotFoundException::new);
     }
 
+    @Transactional
     public void delete(Long id) {
-        boolean exists = existsById(id);
-        if (!exists) throw new SaleNotFoundException();
-
-        saleRepository.deleteById(id);
+        saleRepository.markAsInactive(id);
     }
 
 }

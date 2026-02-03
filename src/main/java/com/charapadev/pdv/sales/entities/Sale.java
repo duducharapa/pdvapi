@@ -22,6 +22,10 @@ public class Sale {
     @Column(nullable = false)
     private BigDecimal totalValue =  BigDecimal.ZERO;
 
+    @Schema(description = "Indicate if the sale is visible on reports and statistics", example = "false")
+    @Column(nullable = false)
+    private boolean visible = true;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "sale")
     private Set<ItemSale> itemSales = new HashSet<>();
 
@@ -58,6 +62,14 @@ public class Sale {
 
     public void setTotalValue(BigDecimal totalValue) {
         this.totalValue = totalValue;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     public void increaseAmount(BigDecimal amount) {

@@ -1,5 +1,6 @@
 package com.charapadev.pdv.products;
 
+import com.charapadev.pdv.payments.exceptions.PaymentNotFoundException;
 import com.charapadev.pdv.products.dtos.CreateProduct;
 import com.charapadev.pdv.products.dtos.UpdateProduct;
 import com.charapadev.pdv.products.entities.Product;
@@ -144,6 +145,10 @@ public class ProductController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
+        boolean exists = productService.existsById(id);
+
+        if (!exists) throw new PaymentNotFoundException();
+
         productService.delete(id);
     }
 

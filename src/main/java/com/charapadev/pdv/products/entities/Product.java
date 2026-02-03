@@ -23,6 +23,10 @@ public class Product implements Serializable {
     @Column(nullable = false, unique = true)
     private String name;
 
+    @Schema(description = "Checks if the product is active for transactions or not", example = "false")
+    @Column(nullable = false)
+    private boolean active = true;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
     private Set<PriceItem> prices  = new HashSet<>();
 

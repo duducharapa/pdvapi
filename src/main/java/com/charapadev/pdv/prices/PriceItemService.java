@@ -45,8 +45,8 @@ public class PriceItemService {
         return findByProductAndTable(productId, defaultTableId);
     }
 
-    public PriceItem save(PriceItem priceItem) {
-        return priceItemRepository.save(priceItem);
+    public void save(PriceItem priceItem) {
+        priceItemRepository.save(priceItem);
     }
 
 }
