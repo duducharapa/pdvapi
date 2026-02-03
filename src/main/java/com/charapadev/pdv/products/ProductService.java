@@ -8,6 +8,7 @@ import com.charapadev.pdv.products.dtos.UpdateProduct;
 import com.charapadev.pdv.products.entities.Product;
 import com.charapadev.pdv.products.exceptions.ProductNotFoundException;
 import com.charapadev.pdv.sales.ItemSaleService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -74,11 +75,12 @@ public class ProductService {
         productRepository.save(product);
     }
 
+    @Transactional
     public void delete(Long id) throws NotFoundException {
         boolean isVinculated = itemSaleService.isProductVinculated(id);
 
         if (isVinculated) {
-
+            productRepository.markAsInactive(id);
         } else {
             productRepository.deleteById(id);
         }

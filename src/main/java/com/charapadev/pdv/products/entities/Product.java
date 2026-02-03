@@ -54,6 +54,14 @@ public class Product implements Serializable {
         this.prices = prices;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Product product)) return false;
