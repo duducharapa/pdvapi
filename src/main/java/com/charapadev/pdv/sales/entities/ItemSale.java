@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 @Schema(description = "Intermediary class that represents each product sold in a sale instance")
@@ -28,6 +29,10 @@ public class ItemSale implements Serializable {
     @Schema(description = "The quantity of the vinculated product sold in the specific sale", example = "8")
     @Column(nullable = false)
     private Integer quantity;
+
+    @Schema(description = "The price after all discounts and increases applied", example = "8.88")
+    @Column(nullable = false)
+    private BigDecimal finalPrice;
 
     public Sale getSale() {
         return sale;
@@ -58,6 +63,22 @@ public class ItemSale implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public BigDecimal getFinalPrice() {
+        return finalPrice;
+    }
+
+    public void setFinalPrice(BigDecimal finalPrice) {
+        this.finalPrice = finalPrice;
+    }
+
+
+    // Returns the calculated total value: price * quantity
+    public BigDecimal getTotalPrice() {
+        BigDecimal convertedQuantity = new BigDecimal(quantity);
+
+        return finalPrice.multiply(convertedQuantity);
     }
 
     @Override

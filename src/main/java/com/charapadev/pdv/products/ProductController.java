@@ -4,6 +4,7 @@ import com.charapadev.pdv.payments.exceptions.PaymentNotFoundException;
 import com.charapadev.pdv.products.dtos.CreateProduct;
 import com.charapadev.pdv.products.dtos.UpdateProduct;
 import com.charapadev.pdv.products.entities.Product;
+import com.charapadev.pdv.products.exceptions.ProductNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -19,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Tag(name = "Products", description = "Represents the goods to manage and sell")
 @RestController
@@ -95,7 +97,8 @@ public class ProductController {
     })
     @GetMapping("/{id}")
     public Product search(@PathVariable Long id) {
-        return productService.findById(id);
+        return Optional.ofNullable(productService.findById(id))
+                .orElseThrow(ProductNotFoundException::new);
     }
 
 
@@ -119,7 +122,10 @@ public class ProductController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping("/{id}")
     public void update(@PathVariable Long id, @RequestBody UpdateProduct data) {
-        productService.update(id, data);
+        Product productFound = Optional.ofNullable(productService.findById(id))
+                .orElseThrow(ProductNotFoundException::new);
+
+        productService.update(productFound, data);
     }
 
 

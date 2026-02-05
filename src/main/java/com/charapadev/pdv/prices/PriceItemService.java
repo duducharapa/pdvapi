@@ -21,19 +21,19 @@ public class PriceItemService {
         this.priceTableConfiguration = priceTableConfiguration;
     }
 
-    public void create(PriceTable table, Product product, BigDecimal price) {
+    public PriceItem create(PriceTable table, Product product, BigDecimal price) {
         PriceItem newPrice = new PriceItem();
         newPrice.setProduct(product);
         newPrice.setPrice(price);
         newPrice.setPriceTable(table);
 
-        priceItemRepository.save(newPrice);
+        return priceItemRepository.save(newPrice);
     }
 
-    public void create(Product product, BigDecimal price) {
+    public PriceItem create(Product product, BigDecimal price) {
         PriceTable defaultTable = priceTableService.getDefaultTable();
 
-        create(defaultTable, product, price);
+        return create(defaultTable, product, price);
     }
 
     public PriceItem findByProductAndTable(Long productId, Long tableId) {
