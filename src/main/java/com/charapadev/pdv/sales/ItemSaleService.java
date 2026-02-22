@@ -11,6 +11,8 @@ public class ItemSaleService {
         this.itemSaleRepository = itemSaleRepository;
     }
 
+
+    // Check if a specific product is already used on any sale
     public boolean isProductVinculated(Long id) {
         return itemSaleRepository.countByProduct(id) > 0;
     }

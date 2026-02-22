@@ -3,7 +3,7 @@ package com.charapadev.pdv.payments;
 import com.charapadev.pdv.payments.dtos.CreatePaymentMethod;
 import com.charapadev.pdv.payments.dtos.UpdatePaymentMethod;
 import com.charapadev.pdv.payments.entities.PaymentMethod;
-import com.charapadev.pdv.payments.exceptions.PaymentNotFoundException;
+import com.charapadev.pdv.payments.exceptions.MethodNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -93,12 +93,12 @@ public class PaymentMethodController {
     })
     @GetMapping("/{id}")
     public PaymentMethod search(@PathVariable Long id) {
-        PaymentMethod methodFound = paymentMethodService.findById(id);
-
-        if (methodFound == null) throw new PaymentNotFoundException();
+        PaymentMethod methodFound = paymentMethodService.find(id);
+        if (methodFound == null) throw new MethodNotFoundException();
 
         return methodFound;
     }
+
 
     @Operation(
             summary = "Edit payment method",
@@ -120,12 +120,12 @@ public class PaymentMethodController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping("/{id}")
     public void update(@PathVariable Long id, @RequestBody UpdatePaymentMethod data) {
-        boolean methodExists = paymentMethodService.existsById(id);
+        PaymentMethod methodFound = paymentMethodService.find(id);
+        if (methodFound == null) throw new MethodNotFoundException();
 
-        if (!methodExists) throw new PaymentNotFoundException();
-
-        paymentMethodService.update(id, data);
+        paymentMethodService.update(methodFound, data);
     }
+
 
     @Operation(
             summary = "Remove payment method",
@@ -149,7 +149,7 @@ public class PaymentMethodController {
     public void delete(@PathVariable Long id) {
         boolean methodExists = paymentMethodService.existsById(id);
 
-        if (!methodExists) throw new PaymentNotFoundException();
+        if (!methodExists) throw new MethodNotFoundException();
 
         paymentMethodService.delete(id);
     }

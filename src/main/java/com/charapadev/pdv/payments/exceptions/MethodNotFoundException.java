@@ -2,9 +2,9 @@ package com.charapadev.pdv.payments.exceptions;
 
 import com.charapadev.pdv.base.exceptions.NotFoundException;
 
-public class PaymentNotFoundException extends NotFoundException {
+public class MethodNotFoundException extends NotFoundException {
 
-    public PaymentNotFoundException() {
+    public MethodNotFoundException() {
         super("Método de pagamento não encontrado");
     }
 

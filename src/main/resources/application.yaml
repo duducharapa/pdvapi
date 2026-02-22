@@ -21,6 +21,7 @@ spring:
 pdv:
   default:
     price-table: Padrão
+    stock: Padrão
     payment-methods:
       - Cartão de crédito
       - Cartão de débito

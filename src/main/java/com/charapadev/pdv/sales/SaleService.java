@@ -78,7 +78,7 @@ public class SaleService {
         // Payments populating
         for (AddPaymentMethod paymentData: data.payments()) {
             PaymentSale payment = new PaymentSale();
-            PaymentMethod method = paymentMethodService.findById(paymentData.methodId());
+            PaymentMethod method = paymentMethodService.find(paymentData.methodId());
 
             payment.setAmount(paymentData.amount());
             payment.setMethod(method);
