@@ -1,5 +1,6 @@
 package com.charapadev.pdv.stocks;
 
+import com.charapadev.pdv.base.configurations.StockConfiguration;
 import com.charapadev.pdv.stocks.dtos.CreateStock;
 import com.charapadev.pdv.stocks.dtos.UpdateStock;
 import com.charapadev.pdv.stocks.entities.Stock;
@@ -12,15 +13,23 @@ import java.util.List;
 public class StockService {
 
     private final StockRepository stockRepository;
+    private final StockConfiguration stockConfiguration;
 
-    public StockService(StockRepository stockRepository) {
+    public StockService(StockRepository stockRepository,  StockConfiguration stockConfiguration) {
         this.stockRepository = stockRepository;
+        this.stockConfiguration = stockConfiguration;
+    }
+
+
+    // Checks if the stock already exists and returns it
+    public boolean exists(Long id) {
+        return stockRepository.existsById(id);
     }
 
 
     //
-    public boolean exists(Long id) {
-        return stockRepository.existsById(id);
+    public Stock getDefaultStock() {
+        return stockRepository.findDefault(stockConfiguration.getStock());
     }
 
 

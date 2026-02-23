@@ -14,4 +14,7 @@ public interface StockRepository extends JpaRepository<@NonNull Stock,@NonNull L
     @Query("UPDATE Stock s SET s.active = false WHERE s.id = :stockId")
     void markAsInactive(Long stockId);
 
+    @Query("SELECT s FROM Stock s WHERE name = :defaultStockName")
+    Stock findDefault(String defaultStockName);
+
 }
